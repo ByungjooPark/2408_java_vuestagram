@@ -1,0 +1,25 @@
+# spring.application.name=vuestagram
+spring:
+  application:
+    name: vuestagram
+
+  # MariaDB 설정
+  datasource:
+    url: jdbc:mariadb://아이피:포트/DB명
+    username: 계정
+    password: 비번
+    driver-class-name: org.mariadb.jdbc.Driver
+
+# config 설정
+config:
+  jwt:
+    issuer: meerkat@meerkat.kr
+    type: JWT
+    access-token-expiry: 10000
+    refresh-token-expiry: 1296000000
+    refresh-token-cookie-name: refresh-token
+    refresh-token-cookie-expiry: 1296000
+    secret: 시크릿키 영어숫자로 40바이트 이상으로
+    header-key: Authorization
+    scheme: Bearer
+    reiss-uri: /api/reissue-token
