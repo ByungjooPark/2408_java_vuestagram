@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
@@ -20,34 +21,27 @@ import java.time.LocalDateTime;
 @Entity
 @EnableJpaAuditing
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "users")
-@SQLDelete(sql = "UPDATE users SET updated_at = NOW(), delted_at = NOW() WHERE user_id = ?")
+@Table(name = "boards")
+@SQLDelete(sql = "UPDATE boards SET updated_at = NOW(), delted_at = NOW() WHERE board_id = ?")
 @Where(clause = "deleted_at IS NULL")
-public class User {
+public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "board_id")
+    private Long boardId;
 
-    @Column(name = "account", unique = true, nullable = false, length = 20)
-    private String account;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @JsonIgnore
-    @Column(name = "password", nullable = false, length = 255)
-    private String password;
+    @Column(name = "content", nullable = false, length = 200)
+    private String content;
 
-    @Column(name = "name", nullable = false, length = 20)
-    private String name;
+    @Column(name = "img", nullable = false, length = 100)
+    private String img;
 
-    @Column(name = "profile", length = 100)
-    private String profile;
-
-    @Column(name = "gender", nullable = false, length = 1)
-    private String gender;
-
-    @JsonIgnore
-    @Column(name = "refresh_token", length = 512)
-    private String refreshToken;
+    @Column(name = "likes", nullable = false, length = 11)
+    private int likes;
 
     @CreatedDate
     @Column(name = "created_at")
