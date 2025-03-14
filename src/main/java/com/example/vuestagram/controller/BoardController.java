@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BoardController {
     private final BoardService boardService;
 
-    @GetMapping("/test")
+    @GetMapping
     public Board test() {
         return boardService.test();
     }

@@ -3,6 +3,11 @@ spring:
   application:
     name: vuestagram
 
+  servlet:
+    multipart:
+      max-file-size: 10MB #파일 업로드 사이즈 제한
+      max-request-size: 10MB # Request 사이즈 제한
+
   # MariaDB 설정
   datasource:
     url: jdbc:mariadb://아이피:포트/DB명
@@ -10,7 +15,29 @@ spring:
     password: 비번
     driver-class-name: org.mariadb.jdbc.Driver
 
-# config 설정
+  # JPA
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      data-locations: classpath*:db/data.sql
+      mode: never
+      platform: all
+
+# Slf4j
+logging:
+  file:
+    name: logs/app.log
+  level:
+    root: info
+
+# config
 config:
   jwt:
     issuer: meerkat@meerkat.kr
@@ -19,7 +46,11 @@ config:
     refresh-token-expiry: 1296000000
     refresh-token-cookie-name: refresh-token
     refresh-token-cookie-expiry: 1296000
-    secret: 시크릿키 영어숫자로 40바이트 이상으로
+    secret: w4e5gwe57nhwb456g3h46g34of6h9439f5h8o7os5789hflsg645eh74s57he54g734
     header-key: Authorization
     scheme: Bearer
     reiss-uri: /api/reissue-token
+  file:
+    real-file-path: D:/workspace/프로젝트명/src/main
+    profile-path: /img/profile
+    board-img-path: /img/board

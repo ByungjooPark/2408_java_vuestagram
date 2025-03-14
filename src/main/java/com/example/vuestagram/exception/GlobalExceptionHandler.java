@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(ExpiredJwtException.class)
-    public ResponseEntity<ResponseBase> handleExpiredJwtException(ExpiredJwtException e) {
+    public ResponseEntity<ResponseBase<String>> handleExpiredJwtException(ExpiredJwtException e) {
         log.error("JWT 토큰이 만료되었습니다." + e.getMessage());
 
         ResponseBase<String> result = ResponseBase.<String>builder()
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(SignatureException.class)
-    public ResponseEntity<ResponseBase> handleSignatureException(SignatureException e) {
+    public ResponseEntity<ResponseBase<String>> handleSignatureException(SignatureException e) {
         log.error("JWT 서명이 올바르지 않습니다." + e.getMessage());
 
         ResponseBase<String> result = ResponseBase.<String>builder()
@@ -46,8 +46,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ResponseBase<String>> handleRuntimeException(RuntimeException e) {
-        log.error("런타임 에러" + e.getMessage());
-
         ResponseBase<String> result = ResponseBase.<String>builder()
                 .status(500)
                 .message(e.getMessage())
