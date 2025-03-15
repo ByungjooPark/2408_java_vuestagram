@@ -32,7 +32,7 @@ public class OrderSpecifierUtil {
             Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC; // 정렬의 방향을 획득
 
             // 새로운 OrderSpecifier<?> 객체를 인스턴스
-            // 첫번째 파라미터(Order order) : 정렬의 방향정보를 가진 Order 객체, 30라인에서 획득
+            // 첫번째 파라미터(Order order) : 정렬의 방향정보를 가진 Order 객체, 32라인에서 획득
             // 두번째 파라미터(Expressions<T>) : QueryDSL에서 사용할 Path, 예)`QBoard.userId`, `QBoard.createAt` 등 사용
             //      두번째 파라미터(Expressions<T>)의 경우 클라이언트가 보내온 데이터로 작성해야 하므로 동적으로 Path를 생성해줄 필요가 있음
             //      `Expressions.path(Class<? extends T> type, Path<?> parent, String property)`의 파라미터는 아래와 같음
