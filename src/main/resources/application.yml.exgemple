@@ -51,6 +51,6 @@ config:
     scheme: Bearer
     reiss-uri: /api/reissue-token
   file:
-    real-file-path: D:/workspace/프로젝트명/src/main
-    profile-path: /img/profile
-    board-img-path: /img/board
+    real-file-path: D:/workspace/프로젝트명/src/main # 절대 경로로 지정
+    profile-path: /img/profile # 상대 경로로 지정, 저장 처리 코드에서 real-file-path를 연결하여 사용하는 식
+    board-img-path: /img/boards # 상대 경로로 지정, 저장 처리 코드에서 real-file-path를 연결하여 사용하는 식

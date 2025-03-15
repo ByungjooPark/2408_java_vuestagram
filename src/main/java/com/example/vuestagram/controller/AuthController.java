@@ -47,7 +47,7 @@ public class AuthController {
             // 파일 데이터는 별도로 받고, 기타 유저 데이터는 JSON으로 받음
             @Valid @RequestPart(name = "json") RequestRegistration requestRegistration
             ,@RequestPart(name="profile", required = false) MultipartFile file
-    ) throws IOException {
+    ) {
         authService.registration(requestRegistration, file);
 
         ResponseBase<String> responseBase =

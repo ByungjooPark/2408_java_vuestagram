@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -81,7 +82,8 @@ public class AuthService {
     }
 
     // 회원 가입
-    public void registration(RequestRegistration requestRegistration, MultipartFile file) throws IOException {
+    @Transactional // 트랜잭션 처리
+    public void registration(RequestRegistration requestRegistration, MultipartFile file) {
         // 기존 가입 회원 체크
         if(userRepogitory.findByAccount(requestRegistration.getAccount()).isPresent()) {
             throw new RuntimeException("이미 가입된 회원입니다.");
@@ -92,7 +94,7 @@ public class AuthService {
         // 유저 데이터를 먼저 insert 후, 실제 파일 저장 처리 진행
         // 프로필 패스는 `중간경로 + 파일명`으로 이루어짐
         // ex) /img/profile/34wj6hgkj346fv.png
-        String profilePath = file != null ? fileUtil.makeRandomFileName(file, fileConfig.getProfilePath()) : "";
+        String profilePath = (file != null && file.getSize() > 0) ? fileUtil.makeRandomFileName(file, fileConfig.getProfilePath()) : "";
 
         // 유저 엔티티 생성
         User newUser = new User();
@@ -104,9 +106,13 @@ public class AuthService {
 
         userRepogitory.save(newUser); // Insert 처리
 
-        if(file != null) {
-            fileUtil.makeDir(fileConfig.getProfilePath()); // 파일 경로 생성 (파일 경로 없는 상태에서 파일 업로드시 에러 발생)
-            fileUtil.saveFile(file, profilePath); // 파일 저장 처리
+        try {
+            if(file != null) {
+                fileUtil.makeDir(fileConfig.getProfilePath()); // 파일 경로 생성 (파일 경로 없는 상태에서 파일 업로드시 에러 발생)
+                fileUtil.saveFile(file, profilePath); // 파일 저장 처리
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("파일 저장 에러 발생: " + e.getMessage());
         }
     }
 
