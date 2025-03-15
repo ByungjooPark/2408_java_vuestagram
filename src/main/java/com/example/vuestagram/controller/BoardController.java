@@ -1,7 +1,6 @@
 package com.example.vuestagram.controller;
 
 import com.example.vuestagram.dto.request.RequestBoardStore;
-import com.example.vuestagram.dto.request.RequestRegistration;
 import com.example.vuestagram.dto.request.RequestSerch;
 import com.example.vuestagram.model.Board;
 import com.example.vuestagram.service.BoardService;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,7 +34,7 @@ public class BoardController {
 
     @GetMapping("/{boardId}")
     // @Min(1) : 최소값 1이상인지 체크
-    // @PathVariable : 세그먼트 파라미터 획득, 세그먼트 파라미터명과 show 메소드의 파라
+    // @PathVariable : 세그먼트 파라미터 획득, name속성값을 세그먼트 파라미터명으로 지정하여 바인딩
     public ResponseEntity<Board> show(@Min(1) @PathVariable(name = "boardId") Long boardId) {
         return ResponseEntity.status(200).body(boardService.show(boardId));
     }
