@@ -50,7 +50,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseBase<String>> handleRuntimeException(RuntimeException e) {
         ResponseBase<String> result = ResponseBase.<String>builder()
                 .status(400)
-                .message(e.getMessage())
+                .message("런타임 에러: " + e.getMessage())
                 .build();
 
         return ResponseEntity.status(400)
@@ -75,8 +75,8 @@ public class GlobalExceptionHandler {
     }
 
     // 유효성 검사 실패 예외 처리 (@Valid, @Validated 외)
-    @ExceptionHandler({TypeMismatchException.class})
-    public ResponseEntity<ResponseBase<String>> handleTypeMismatchException(TypeMismatchException e) {
+    @ExceptionHandler({TypeMismatchException.class, IllegalArgumentException.class})
+    public ResponseEntity<ResponseBase<String>> handleValidationETCException(Exception e) {
         ResponseBase<String> result = ResponseBase.<String>builder()
                 .status(400)
                 .message("유효성 검사 실패: " + e.getMessage())

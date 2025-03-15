@@ -116,7 +116,7 @@ public class BoardService {
 
         // 페이지네이션 데이터 획득
         List<Board> boards = query
-                                .orderBy(OrderSpecifierUtil.getOrderSpecifier(pageable, board))
+                                .orderBy(OrderSpecifierUtil.generateOrderSpecifier(pageable, board))
                                 .offset(pageable.getOffset())
                                 .limit(pageable.getPageSize())
                                 .fetch();
